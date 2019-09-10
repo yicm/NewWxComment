@@ -1,0 +1,11 @@
+<!--component/WxLogin/WxLogin.wxml-->
+<!--miniprogram/component/WxLogin/WxLogin.wxml-->
+<view class="modal-mask" bindtap="hideModal" wx:if="{{showModal}}"></view>
+<view wx:if="{{showModal}}">
+  <view class="modal-content">
+    <view class='cell-content'>
+      <image class='avatar' mode="aspectFit" src="./images/login_active.png"> </image>
+      <button class='auth-button' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGetUserInfo">授权</button>
+    </view>
+  </view>
+</view>

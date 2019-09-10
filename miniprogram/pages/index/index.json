@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "主页",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "NewWxComment": "/component/NewWxComment/NewWxComment"
+  }
+}

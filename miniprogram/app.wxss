@@ -1,0 +1,7 @@
+/**app.wxss**/
+
+.container {
+    padding: 0 24rpx;
+    background-color: #fff;
+    font-family: Microsoft YaHei, Helvetica, Arial, sans-serif;
+}

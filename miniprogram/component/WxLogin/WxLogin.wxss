@@ -1,0 +1,52 @@
+/* component/WxLogin/WxLogin.wxss */
+.modal-mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #484848;
+  opacity: 0.5;
+  overflow: hidden;
+  z-index: 9000;
+  color: rgba(248, 246, 246, 0.76);
+  align-items:center;
+}
+
+.modal-content {
+  position: fixed;
+  top: 45%;
+  left: 0;
+  z-index: 9500;
+  width: 60%;
+  height: 10%;
+  overflow: hidden;
+  background:white;
+  /*top/bottom , left/right*/
+  margin: 0rpx 20%;
+  border-radius: 16rpx;
+  align-items:center;
+}
+
+.cell-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.avatar {
+  margin: 0rpx, 0rpx;
+  width: 40%;
+  height: 100%;
+}
+
+.auth-button {
+  line-height: 120rpx;
+  margin: 0rpx, 0rpx;
+  width: 60%;
+  height: 100%;
+  text-align: center;
+}
