@@ -1,19 +1,19 @@
 <!--component/NewWxComment/NewWxComment.wxml-->
 <wxs module="md5" src="./NewWxComment.wxs"></wxs>
 
-<view class="container">
+<view class="container {{isDark ? 'dark':'light'}}">
     <!-- 登陆检测提示区 -->
     <view>
         <WxLogin showModal='{{showAurButton}}'> </WxLogin>
     </view>
 
     <!-- 评论内容区 -->
-    <view style="display:{{display}}">
-        <view class="relatedTitle" id="relatedTitle">
+    <view style="display:{{display}}" class="{{isDark ? 'dark':'light'}}">
+        <view class="relatedTitle {{isDark?'dark':''}}" id="relatedTitle">
             评论交流 {{enableComment?'(点击评论内容可以回复)':''}}
         </view>
         <view class="entry-gap-like"></view>
-        <view class="commentheader">
+        <view class="commentheader {{isDark?'dark':''}}">
             {{commentCountStr}}
         </view>
         <block wx:key="id" wx:for="{{commentsList}}">
@@ -30,7 +30,7 @@
                         <view bindtap="replay" data-id="{{item.id}}" data-name="{{item.author_name}}" data-rid="{{item.rid}}" data-pid="{{item.pid}}" data-commentdate="{{item.date}}">{{item.date}}</view>
                     </view>
                 </view>
-                <view class="comment-summary" bindtap="replay" data-id="{{item.id}}" data-name="{{item.author_name}}" data-rid="{{item.rid}}" data-pid="{{item.pid}}" data-commentdate="{{item.date}}"> {{item.content}}</view>
+                <view class="comment-summary {{isDark?'dark':''}}" bindtap="replay" data-id="{{item.id}}" data-name="{{item.author_name}}" data-rid="{{item.rid}}" data-pid="{{item.pid}}" data-commentdate="{{item.date}}"> {{item.content}}</view>
 
                 <!-- 一级回复 -->
                 <view wx:for="{{item.child}}" wx:key="itemid1" wx:for-index="idx" wx:for-item="item1">
@@ -41,25 +41,25 @@
 
                     <!-- 二级回复 -->
                     <view wx:for="{{item1.child}}" wx:key="itemid2" wx:for-index="idx" wx:for-item="item2">
-                        <view class="replay-user" bindtap="replay" data-id="{{item2.id}}" data-name="{{item2.author_name}}" data-rid="{{item2.rid}}" data-pid="{{item2.pid}}" data-commentdate="{{item2.date}}">
+                        <view class="replay-user  {{isDark?'dark':''}}" bindtap="replay" data-id="{{item2.id}}" data-name="{{item2.author_name}}" data-rid="{{item2.rid}}" data-pid="{{item2.pid}}" data-commentdate="{{item2.date}}">
                             {{item2.author_name}} 回复 {{item1.author_name}}: {{item2.content}}
                         </view>
 
                         <!-- 三级回复 -->
                         <view wx:for="{{item2.child}}" wx:key="itemid3" wx:for-index="idx" wx:for-item="item3">
-                            <view class="replay-user" bindtap="replay" data-id="{{item3.id}}" data-name="{{item3.author_name}}" data-rid="{{item3.rid}}" data-pid="{{item3.pid}}" data-commentdate="{{item3.date}}">
+                            <view class="replay-user  {{isDark?'dark':''}}" bindtap="replay" data-id="{{item3.id}}" data-name="{{item3.author_name}}" data-rid="{{item3.rid}}" data-pid="{{item3.pid}}" data-commentdate="{{item3.date}}">
                                 {{item3.author_name}} 回复 {{item2.author_name}}: {{item3.content}}
                             </view>
 
                             <!-- 四级回复 -->
                             <view wx:for="{{item3.child}}" wx:key="itemid4" wx:for-index="idx" wx:for-item="item4">
-                                <view class="replay-user" bindtap="replay" data-id="{{item4.id}}" data-name="{{item4.author_name}}" data-rid="{{item4.rid}}" data-pid="{{item4.pid}}" data-commentdate="{{item3.date}}">
+                                <view class="replay-user  {{isDark?'dark':''}}" bindtap="replay" data-id="{{item4.id}}" data-name="{{item4.author_name}}" data-rid="{{item4.rid}}" data-pid="{{item4.pid}}" data-commentdate="{{item3.date}}">
                                     {{item4.author_name}} 回复 {{item3.author_name}}: {{item4.content}}
                                 </view>
 
                                 <!-- 五级回复：之后不支持回复 -->
                                 <view wx:for="{{item4.child}}" wx:key="itemid5" wx:for-index="idx" wx:for-item="item5">
-                                    <view class="replay-user" bindtap="replay">
+                                    <view class="replay-user  {{isDark?'dark':''}}" bindtap="replay">
                                         {{item5.author_name}} 回复 {{item4.author_name}}: {{item5.content}}
                                     </view>
                                 </view>
@@ -88,30 +88,30 @@
                 </view>
             </view>
             <view style="display:{{isLastPage?'block':'none'}}">
-                <view class="no-more">---我是有底线的---</view>
+                <view class="no-more  {{isDark?'dark':''}}">---我是有底线的---</view>
             </view>
         </view>
     </view>
 
     <!-- 版权区 -->
-    <view class="ditail-copyright" style="display:{{display}}">
+    <view class="ditail-copyright {{isDark ? 'dark':'light'}}" style="display:{{display}}">
         <view>{{copyRight}}</view>
     </view>
     <!-- 评论控件区 -->
-    <view style="display:{{enableComment?'block':'none'}}">
+    <view style="display:{{enableComment?'block':'none'}}" class="{{isDark ? 'dark':'light'}}">
         <view class="menuBackground" catchtap="hiddenMenubox" style="display:{{menuBackgroup ? 'block' : 'none'}}"></view>
         <view style="display:{{display}}">
-            <view class="comment-fixed">
+            <view class="comment-fixed {{isDark ? 'dark':'light'}}">
                 <form catchsubmit="bindFormSubmit" report-submit="true">
                     <view class="comment-respond">
                         <view class="comment-box">
                             <image src="./images/home.png" class="img-plus" style="margin-left:20rpx;margin-right:20rpx" catchtap="goHome"></image>
                             <input class="comment-input" type='text' confirm-type="send" cursor-spacing="10" maxlength="{{contentMaxLen}}" name="inputComment" value="{{content}}" placeholder="{{placeholder}}" focus="{{focus}}" bindblur="onReplyBlur" bindfocus="onRepleyFocus" />
-                            <button class="comment-button touch-active " formType="submit">发送</button>
+                            <button class="comment-button touch-active  {{isDark ? 'dark':''}}" formType="submit">发送</button>
                             <image src="./images/more.png" class="img-plus" catchtap="showHideMenu" mode=""></image>
                         </view>
                         <!-- 功能图标 -->
-                        <view class="menu-box {{isMenuboxShow ? 'emoji-move-in' : 'emoji-move-out'}} {{isMenuboxLoad ? 'no-emoji-move' : ''}}">
+                        <view class="menu-box {{isMenuboxShow ? 'emoji-move-in' : 'emoji-move-out'}} {{isMenuboxLoad ? 'no-emoji-move' : ''}} {{isDark ? 'dark':'light'}}">
                             <view class="iconList">
                                 <view class="iconLine">
                                     <view style="width:16%; position: relative; float:left; text-align:center">

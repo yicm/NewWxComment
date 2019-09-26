@@ -14,14 +14,18 @@
 - 支持emoji表情显示😉
 - 支持评论分页加载
 - 支持评论分页参数设置
+- 内置获取微信用户公共信息授权
+- 支持light/dark两种主题
 
 # 屏幕截图
 
 下图为`NewWxComment`嵌入式到具体博客中显示的效果。
 
-TODO
+![image](https://gitee.com/yicm/Images/raw/master/xiaobaiai/news/NewWxComment.png)
 
 # 快速入手
+
+> 注意：下面的前三步也可以参考Valine评论插件方法，如果是Valine已经设置好了，直接跳过前三步；
 
 1. 注册LeanCloud账号，并创建过LeanCloud应用；
 
@@ -60,7 +64,26 @@ index.json
 "usingComponents": {
     "NewWxComment": "/component/NewWxComment/NewWxComment"
 }
+```
 
+index.js中添加触底才获取评论数据：
+
+```
+// 到底触发获取评论数据函数
+// 添加触发拉取评论函数
+onReachBottom: function() {
+    let newWxComment = this.selectComponent('#NewWxComment');
+    newWxComment.onReachBottom();
+}
+```
+如果评论格数显示不正常，检查app.js `container`样式：
+
+```
+.container {
+    padding: 0 24rpx;
+    background-color: #fff;
+    font-family: Microsoft YaHei, Helvetica, Arial, sans-serif;
+}
 ```
 
 NewWxComment组件属性说明：
@@ -74,19 +97,22 @@ contentMinLen: 评论最小长度要求，默认值2
 contentMaxLen: 评论最大长度限制，默认值300
 articleID: 待评论文章唯一ID
 websiteURL: PC端网站域名(若无可不填)，默认值`https://xiaobaiai.net`
+theme: 主题设置，仅支持 light 或者 dark 两个属性值
 ```
 
 # Demo
 
-小程序`小白AI`博客引用WxComment组件示例，评论消息订阅可见`我的`->`消息`：
+小程序`小白AI`博客引用NewWxComment组件示例：
 
 ![](https://raw.githubusercontent.com/yicm/WxComment/master/screenshot/xiaobaiai.jpg)
 
 # TODO
 
-- 支持点赞
-- 支持作者回复
+- 支持点赞列表
+- 支持作者回复高亮标志
 - 支持垃圾评论过滤
+- 支持海报分享
+- 支持赞赏
 - ...
 
 # License

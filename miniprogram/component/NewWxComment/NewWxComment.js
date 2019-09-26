@@ -21,8 +21,8 @@ var Common = require('../../libs/scripts/common.js');
 // LeanCloud 应用的 ID 和 Key
 
 AV.init({
-    appId: 'your leancloud app id',
-    appKey: 'your leancloud app key',
+    appId: 'HRYpYqLTygyfRlsN8I3KEhkw-gzGzoHsz',
+    appKey: '5two7AvBo3gjnH3hpYSyBW35',
 });
 
 Component({
@@ -80,6 +80,8 @@ Component({
      * 组件的初始数据
      */
     data: {
+        // 主题
+        isDark: false,
         // 系统相关
         uaInfo: '',
         // 授权相关
@@ -458,7 +460,7 @@ Component({
             }
 
             // 生成评论树
-            data = JSON.parse(JSON.stringify(new_data));
+            let data = JSON.parse(JSON.stringify(new_data));
             for (let i = 0; i < data.length; i++) {
                 let item_i = data[i];
                 if (item_i[p_key] === root_value) {
@@ -481,7 +483,7 @@ Component({
                     }
                 }
             }
-            tree_data = data.filter(item => item[p_key] === root_value);
+            let tree_data = data.filter(item => item[p_key] === root_value);
 
             // set data
             if (tree_data) {
