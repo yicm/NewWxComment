@@ -7,6 +7,7 @@
 
 .light {
     background: #fff;
+    background-color: #fff;
     color: #484848;
 }
 
@@ -117,10 +118,14 @@ view {
 
 .comment {
     /* border-bottom: 8px solid #fff; */
-    background-color: #f5f7f7;
+    /* background-color: #f5f7f7; */
     padding: 0 24rpx;
     border-radius: 8px;
     margin: 8px 0;
+}
+
+.comment-bg {
+    background-color: #f5f7f7;
 }
 
 .comment-children {

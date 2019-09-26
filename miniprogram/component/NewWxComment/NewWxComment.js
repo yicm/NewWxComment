@@ -21,8 +21,8 @@ var Common = require('../../libs/scripts/common.js');
 // LeanCloud 应用的 ID 和 Key
 
 AV.init({
-    appId: 'HRYpYqLTygyfRlsN8I3KEhkw-gzGzoHsz',
-    appKey: '5two7AvBo3gjnH3hpYSyBW35',
+    appId: 'your leancloud app id',
+    appKey: 'your leancloud app key',
 });
 
 Component({
@@ -66,8 +66,27 @@ Component({
         articleID: {
             type: String,
             value: '',
-            observer: function(newVal, oldVal) {
-                // console.log(this.data.articleID);
+            observer: function (newVal, oldVal) {
+                let that = this;
+                console.log(that.data.articleID);
+                console.log(newVal);
+                // 在组件实例进入页面节点树时执行
+                // this.data生效
+                // 获取总评论数
+                this._leanQuery('total');
+                // 获取点赞数
+                // TODO
+
+                if (this.data.theme == 'dark') {
+                    this.setData({
+                        isDark: true
+                    })
+                } else {
+                    this.setData({
+                        isDark: false
+                    })
+                }
+                this.fetechPCommentNum();
             }
         },
         websiteURL: {
@@ -99,6 +118,7 @@ Component({
         display: 'block',
         commentPNum: 0,
         commentCount: 0,
+        likeCount: 0,
         commentCountStr: '',
         commentIndex: 1,
         isLastPage: false,
@@ -115,24 +135,18 @@ Component({
      * 组件生命周期函数
      */
     lifetimes: {
-        created: function() {
+        created: function () {
             // 组件实例刚刚被创建时
             console.log("created");
         },
-        attached: function() {
-            // 在组件实例进入页面节点树时执行
-            // this.data生效
-            console.log("attached");
+        attached: function () {
             this.getUAInfo();
-            this.fetechPCommentNum();
-            this._leanQuery('total');
-            this.updatePageCounter();
         },
-        ready: function() {
+        ready: function () {
             // 在组件在视图层布局完成后执行
             console.log("ready");
         },
-        detached: function() {
+        detached: function () {
             // 在组件实例被从页面节点树移除时执行
             console.log("detached");
         },
@@ -141,7 +155,7 @@ Component({
      * 组件的方法列表
      */
     methods: {
-        showHideMenu: function(e) {
+        showHideMenu: function (e) {
             this.setData({
                 showAurButton: false,
                 isMenuboxShow: !this.data.isMenuboxShow,
@@ -150,34 +164,34 @@ Component({
             })
         },
         // 点击非评论区隐藏功能菜单
-        hiddenMenubox: function() {
+        hiddenMenubox: function () {
             console.log("hiddenMenubox");
             this.setData({
                 isMenuboxShow: false,
                 menuBackgroup: false
             })
         },
-        goHome: function() {
+        goHome: function () {
             var that = this;
             wx.switchTab({
                 url: that.data.homeURL
             })
         },
-        onCreatePoster: function() {
+        onCreatePoster: function () {
             wx.showToast({
                 title: '敬请期待',
                 icon: 'none',
                 duration: 2000
             });
         },
-        clickLike: function() {
+        clickLike: function () {
             wx.showToast({
                 title: '敬请期待',
                 icon: 'none',
                 duration: 2000
             });
         },
-        aboutWxComment: function() {
+        aboutWxComment: function () {
             let that = this;
             wx.showModal({
                 title: '关于',
@@ -189,7 +203,7 @@ Component({
                 }
             })
         },
-        praise: function() {
+        praise: function () {
             this.showHideMenu();
             var self = this;
             var minAppType = config.getMinAppType;
@@ -210,13 +224,13 @@ Component({
 
             }
         },
-        copyLink: function() {
+        copyLink: function () {
             let that = this;
             if (that.data.websiteURL) {
                 console.log(that.data.websiteURL + that.data.articleURL);
                 wx.setClipboardData({
                     data: that.data.websiteURL + that.data.articleURL,
-                    success: function(res) {
+                    success: function (res) {
                         wx.showToast({
                             title: '复制成功',
                             icon: 'success',
@@ -228,7 +242,7 @@ Component({
                 console.log('网站主页域名未设置');
             }
         },
-        replay: function(e) {
+        replay: function (e) {
             let that = this;
             let id = e.target.dataset.id;
             let name = e.target.dataset.name;
@@ -254,7 +268,7 @@ Component({
             //console.log('toCommentPid', that.data.toCommentPid);
             //console.log('toCommentRid', that.data.toCommentRid);
         },
-        onReplyBlur: function(e) {
+        onReplyBlur: function (e) {
             let that = this;
             console.log('onReplyBlur');
             that.data.isFocusing = false;
@@ -263,16 +277,16 @@ Component({
                 that._resetInput();
             }
         },
-        onRepleyFocus: function(e) {
+        onRepleyFocus: function (e) {
             console.log('onReplyFocus');
         },
-        getLeanCloudACL: function(read, write) {
+        getLeanCloudACL: function (read, write) {
             let acl = new AV.ACL();
             acl.setPublicReadAccess(read);
             acl.setPublicWriteAccess(write);
             return acl;
         },
-        writeComment: function(content, rid, pid, is_reply, to_user, user_info) {
+        writeComment: function (content, rid, pid, is_reply, to_user, user_info) {
             let that = this;
             // 未存在会创建新表
             let Ct = AV.Object.extend(that.data.commentTabName);
@@ -342,7 +356,7 @@ Component({
             });
         },
         // 提交评论
-        bindFormSubmit: function(e) {
+        bindFormSubmit: function (e) {
             let that = this;
             // 判断内容长度是否满足最小要求
             let content = e.detail.value.inputComment;
@@ -366,7 +380,7 @@ Component({
                     } else {
                         // console.log("已经授权获取用户信息，开始获取信息");
                         wx.getUserInfo({
-                            success: function(res) {
+                            success: function (res) {
                                 that.data.userInfo = res.userInfo;
                                 // LeanCloud 用户一键登录
                                 AV.User.loginWithWeapp().then(user => {
@@ -393,13 +407,13 @@ Component({
                         })
                     }
                 },
-                fail: function() {
+                fail: function () {
                     console.log("获取用户的当前设置失败");
                 }
             })
 
         },
-        onReachBottom: function() {
+        onReachBottom: function () {
             console.log("达到底部");
             let that = this;
             //console.log(that.data.commentPNum);
@@ -416,7 +430,7 @@ Component({
                 }
             }
         },
-        buildCommentTree: function(source, is_wechat = false, is_reply = false, p_key = 'pid', self_key = 'id', child_key = 'child', root_value = undefined) {
+        buildCommentTree: function (source, is_wechat = false, is_reply = false, p_key = 'pid', self_key = 'id', child_key = 'child', root_value = undefined) {
             let that = this;
             // 整理数据
             let new_data = [];
@@ -505,7 +519,7 @@ Component({
             console.log('重置输入框状态');
             that._resetInput();
         },
-        fetchCommentDetailData: function(no) {
+        fetchCommentDetailData: function (no) {
             let that = this;
             let cq = that._leanQuery(that.data.articleID);
             let size = that.data.pageSize;
@@ -529,7 +543,7 @@ Component({
                     let childs = ret || [];
                     console.log("子评论数：" + childs.length);
                     all_data = all_data.concat(childs);
-                    //console.log(all_data);
+                    console.log(all_data);
                     that.buildCommentTree(all_data);
                 }).catch(ex => {
                     wx.showToast({
@@ -543,23 +557,23 @@ Component({
                 })
             }).catch(ex => {
                 wx.showToast({
-                    title: '加载评论错误...',
+                    title: '加载评论出错...',
                     icon: 'none',
                     duration: 2000
                 })
                 console.log(ex.code);
                 console.log(ex.message);
                 console.log(ex.error);
-            }).finally(function() {
+            }).finally(function () {
                 that.setData({
                     isLoading: false
                 });
             });
         },
-        getUAInfo: function() {
+        getUAInfo: function () {
             let that = this;
             wx.getSystemInfo({
-                success: function(res) {
+                success: function (res) {
                     if (res.system.includes('Android')) {
                         that.data.uaInfo = "Mozilla/5.0 (" + res.model + ";" + res.system + ";" + res.language + ") AppleWebKit/537.36 MicroMessenger/" + res.version;
                     } else {
@@ -571,7 +585,7 @@ Component({
                 },
             })
         },
-        fetechPCommentNum: function() {
+        fetechPCommentNum: function () {
             let that = this;
             that._leanQuery(that.data.articleID).count().then(num => {
                 if (num > 0) {
@@ -595,20 +609,22 @@ Component({
             });
         },
         // 获取评论总数
-        fetchCommentCount: function() {
+        fetchCommentCount: function () {
             let that = this;
             let counter_query = new AV.Query(that.data.commentTabName);
             counter_query.equalTo('url', that.data.articleID);
-            counter_query.count().then(function(count) {
-                    console.log('评论总数：' + count);
-                    if (count && count > 0) {
-                        that.setData({
-                            commentCountStr: "有" + count + "条评论",
-                            commentCount: count
-                        });
-                    }
-                },
-                function(error) {
+            counter_query.count().then(function (count) {
+                console.log('评论总数：' + count);
+                if (count && count > 0) {
+                    that.setData({
+                        commentCountStr: "有" + count + "条评论",
+                        commentCount: count
+                    });
+                }
+                // 更新页面计数和评论数及点赞数
+                that.updatePageCounter();
+            },
+                function (error) {
                     console.log(error.message);
                     console.log(error.code);
                     // https://leancloud.cn/docs/error_code.html#hash1389221
@@ -622,16 +638,18 @@ Component({
                     }
                 });
         },
-        createPageCounter: function() {            
+        createPageCounter: function () {
             let that = this;
             // 未存在会创建新表
             let Counter = AV.Object.extend(that.data.counterTabName);
             let newCounter = new Counter();
             newCounter.setACL(that.getLeanCloudACL(true, true));
-            newCounter.set('url', that.data.articleURL);
+            newCounter.set('url', that.data.articleID);
             newCounter.set('xid', that.data.articleID);
             newCounter.set('title', that.data.articleTitle);
             newCounter.set('time', 1);
+            newCounter.set('comments', that.data.commentCount);
+            newCounter.set('likes', that.data.likeCount);
             newCounter.save().then(ret => {
                 // nothing to do
                 console.log('初始化页面计数表成功');
@@ -644,14 +662,17 @@ Component({
                 });
             });
         },
-        updatePageCounter: function() {
+        updatePageCounter: function () {
             let that = this;
             let query = new AV.Query(that.data.counterTabName);
-            query.equalTo('url', that.data.articleURL);
+            query.equalTo('url', that.data.articleID);
             query.find().then(ret => {
+                console.log(ret);
                 if (ret.length > 0) {
                     let v = ret[0];
                     v.increment("time");
+                    v.set('comments', that.data.commentCount);
+                    v.set('likes', that.data.likeCount);
                     v.save().then(rt => {
                         // 页面计数更新成功
                         console.log('页面计数更新成功');
@@ -670,7 +691,7 @@ Component({
                 }
             });
         },
-        _resetInput: function() {
+        _resetInput: function () {
             let that = this;
             that.setData({
                 toCommentPid: '',
@@ -681,7 +702,7 @@ Component({
                 toUser: ''
             });
         },
-        _leanQuery: function(k) {
+        _leanQuery: function (k) {
             let that = this;
             let len = arguments.length;
             if (k === 'total') {
@@ -709,7 +730,7 @@ Component({
                 return query;
             }
         },
-        _updateUserInfoInLeanCloud: function() {
+        _updateUserInfoInLeanCloud: function () {
             // 获得当前登录用户
             let that = this;
             const user = AV.User.current();
@@ -725,7 +746,7 @@ Component({
                         console.log(user);
                     }).catch(console.error);
                 },
-                fail: function() {
+                fail: function () {
                     console.log("获取用户信息失败");
                 }
             });

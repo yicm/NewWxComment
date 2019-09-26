@@ -17,7 +17,7 @@
             {{commentCountStr}}
         </view>
         <block wx:key="id" wx:for="{{commentsList}}">
-            <view class="comment">
+            <view class="comment {{isDark?'dark':'comment-bg'}}">
                 <view class="comment-user">
                     <block wx:if="{{item.avatar}}">
                         <image src="{{item.avatar}}" class="gravatarImg"></image>
