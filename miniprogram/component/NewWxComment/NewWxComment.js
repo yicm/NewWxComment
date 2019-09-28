@@ -430,6 +430,16 @@ Component({
                 }
             }
         },
+        checkTime: function (s) {
+            return s < 10 ? '0' + s : s;
+        },
+        getLocalDateTimeStr: function (input) {
+            let that = this;
+            let d = new Date(input)
+            let res_date = d.getFullYear() + '-' + that.checkTime((d.getMonth() + 1)) + '-' + that.checkTime(d.getDate());
+            let res_time = that.checkTime(d.getHours()) + ':' + that.checkTime(d.getMinutes()) + ':' + that.checkTime(d.getSeconds());
+            return res_date + ' ' + res_time;
+        },
         buildCommentTree: function (source, is_wechat = false, is_reply = false, p_key = 'pid', self_key = 'id', child_key = 'child', root_value = undefined) {
             let that = this;
             // 整理数据
@@ -439,7 +449,7 @@ Component({
                 item["id"] = source[i].id;
                 item["author_name"] = source[i].attributes.nick;
                 item["content"] = source[i].attributes.comment;
-                item["date"] = source[i].updatedAt.toLocaleString();
+                item["date"] = that.getLocalDateTimeStr(source[i].updatedAt);
                 item["child"] = []
                 item["pid"] = source[i].attributes.pid;
                 item["rid"] = source[i].attributes.rid;
@@ -681,6 +691,19 @@ Component({
                         // 页面计数更新失败
                         console.log('页面计数更新失败');
                     });
+                } else {
+                    // 小程序端先于PC端访问，则需要创建该条记录
+                    let Counter = AV.Object.extend(that.data.counterTabName);
+                    let counter = new Counter();
+                    counter.setACL(that.getLeanCloudACL(true, true));
+                    counter.set('url', that.data.articleID);
+                    counter.set('xid', that.data.articleID);
+                    counter.set('title', that.data.articleTitle);
+                    counter.set('time', 1);
+                    counter.set('comments', that.data.commentCount);
+                    counter.set('likes', that.data.likeCount);
+
+                    counter.save();
                 }
             }).catch(ex => {
                 console.log(ex.message);
