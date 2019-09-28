@@ -1,6 +1,12 @@
-# WxComment
+# NewWxComment
 
 `NewWxComment`[https://github.com/yicm/NewWxComment](https://github.com/yicm/NewWxComment)是一个微信小程序的评论组件，结合BaaS提供商[LeanCloud](https://leancloud.cn/)，无需其他另外的个人或者云服务器，就可以免费使用。解决了需要个人去注册域名、备案、购买云服务器的繁杂问题。且兼容`Valine`[https://github.com/xCss/Valine](https://github.com/xCss/Valine)评论，打通PC端和移动端评论，特别适合使用Valine评论系统且想同时开发小程序文章评论的同学们。
+
+> ps: 打造这个插件的目的在于本人想要打造一个类似hexo通用博客框架，且是一个移动端的框架，首先采用微信小程序实现，现已完成博文编译器的开发，评论插件的开发(打通PC端Valine插件)，微信小程序的经典主题开发（未发布）,期待发布经典主题后，有更多开发者加入，开发更多的插件和主题，一起打通PC端和"现在移动端"，实现移动端的个人博客；
+
+> 先提前“剧透”下经典主题首页，倾心打造：
+
+![image](https://gitee.com/yicm/Images/raw/master/xiaobaiai/news/20190928120001.jpg)
 
 
 # 特色
@@ -16,6 +22,14 @@
 - 支持评论分页参数设置
 - 内置获取微信用户公共信息授权
 - 支持light/dark两种主题
+- 机型兼容友好，包括全面屏iphone11等
+
+# 已测试通过机型
+
+- iphone6s plus
+- iphone11/xr
+- ipad4 pro
+- redmi6 pro
 
 # 屏幕截图
 
