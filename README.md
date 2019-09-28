@@ -6,7 +6,7 @@
 
 > 先提前“剧透”下经典主题首页，倾心打造：
 
-![image](https://gitee.com/yicm/Images/raw/master/xiaobaiai/news/20190928120001.jpg)
+![image](https://raw.githubusercontent.com/yicm/NewWxComment/master/screenshots/Xiaobaiai.jpg)
 
 
 # 特色
@@ -35,7 +35,7 @@
 
 下图为`NewWxComment`嵌入式到具体博客中显示的效果。PC端评论效果可以访问网站[https://xiaobaiai.net](https://xiaobaiai.net)
 
-![image](https://gitee.com/yicm/Images/raw/master/xiaobaiai/news/NewWxComment.png)
+![image](https://raw.githubusercontent.com/yicm/NewWxComment/master/screenshots/NewWxComment.png)
 
 # 快速入手
 
