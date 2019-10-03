@@ -21,7 +21,7 @@
 
 view {
     word-break: break-all;
-    overflow: auto;
+    /* overflow: auto; */
 }
 
 view {
@@ -464,7 +464,7 @@ view {
     text-align: center;
     color: #999;
     margin-top: 20rpx;
-    margin-bottom: 130rpx;
+    /* margin-bottom: 130rpx; */
 }
 
 .wxParse-a {

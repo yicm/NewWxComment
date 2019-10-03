@@ -1,7 +1,7 @@
 <!--component/NewWxComment/NewWxComment.wxml-->
 <wxs module="md5" src="./NewWxComment.wxs"></wxs>
 
-<view class="container {{isDark ? 'dark':'light'}}">
+<view class="container {{isDark ? 'dark':'light'}}" style="padding-bottom: 180rpx;">
     <!-- 登陆检测提示区 -->
     <view>
         <WxLogin showModal='{{showAurButton}}'> </WxLogin>
@@ -23,7 +23,12 @@
                         <image src="{{item.avatar}}" class="gravatarImg"></image>
                     </block>
                     <block wx:else>
-                        <image src="https://gravatar.loli.net/avatar/{{md5.hexMD5(item.author_name)}}?d=retro&v=1.3.6" class="gravatarImg"></image>
+                        <!-- 
+                            https://sdn.geekzu.org/avatar 已备案
+                            https://cdn.v2ex.com/gravatar 已备案
+                            https://gravatar.loli.net/avatar 未备案
+                        -->
+                        <image src="https://cdn.v2ex.com/gravatar/{{md5.hexMD5(item.author_name)}}?d=retro&v=1.3.6" class="gravatarImg"></image>
                     </block>
                     <view style='display:flex;flex-direction: row; justify-content: space-between;width: 100%'>
                         <view style='font-weight:bold;' bindtap="replay" data-id="{{item.id}}" data-name="{{item.author_name}}" data-rid="{{item.rid}}" data-pid="{{item.pid}}" data-commentdate="{{item.date}}">{{item.author_name}}</view>

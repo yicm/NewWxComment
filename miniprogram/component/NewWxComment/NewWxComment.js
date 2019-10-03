@@ -68,8 +68,8 @@ Component({
             value: '',
             observer: function (newVal, oldVal) {
                 let that = this;
-                console.log(that.data.articleID);
-                console.log(newVal);
+                // console.log(that.data.articleID);
+                // console.log(newVal);
                 // 在组件实例进入页面节点树时执行
                 // this.data生效
                 // 获取总评论数
@@ -103,6 +103,8 @@ Component({
         isDark: false,
         // 系统相关
         uaInfo: '',
+        // 赞赏码
+        praiseQRCodeURL: 'https://gitee.com/yicm/Images/raw/master/common/wx_appreciation_code.jpg',
         // 授权相关
         showAurButton: false,
         isMenuboxShow: false,
@@ -144,11 +146,11 @@ Component({
         },
         ready: function () {
             // 在组件在视图层布局完成后执行
-            console.log("ready");
+            //console.log("ready");
         },
         detached: function () {
             // 在组件实例被从页面节点树移除时执行
-            console.log("detached");
+            //console.log("detached");
         },
     },
     /**
@@ -204,25 +206,11 @@ Component({
             })
         },
         praise: function () {
-            this.showHideMenu();
-            var self = this;
-            var minAppType = config.getMinAppType;
-            var system = self.data.system;
-            if (minAppType == "0" && system == 'Android') {
-                if (self.data.openid) {
-                    wx.navigateTo({
-                        url: '../pay/pay?flag=1&openid=' + self.data.openid + '&postid=' + self.data.postID
-                    })
-                } else {
-                    Auth.checkSession(self, 'isLoginNow');
-                }
-            } else {
-                var src = config.getZanImageUrl;
-                wx.previewImage({
-                    urls: [src],
-                });
-
-            }
+            let that = this;
+            wx.previewImage({
+                urls: [that.data.praiseQRCodeURL],
+                current: that.data.praiseQRCodeURL
+            })
         },
         copyLink: function () {
             let that = this;
@@ -293,7 +281,7 @@ Component({
             let commenter = new Ct();
             let commentObj = {};
             let currentDate = new Date();
-
+            console.log('writeComment' + that.data.articleID);
             commentObj["nick"] = that.data.userInfo.nickName;
             commentObj["mail"] = '';
             commentObj["child"] = []
@@ -553,7 +541,7 @@ Component({
                     let childs = ret || [];
                     console.log("子评论数：" + childs.length);
                     all_data = all_data.concat(childs);
-                    console.log(all_data);
+                    //console.log(all_data);
                     that.buildCommentTree(all_data);
                 }).catch(ex => {
                     wx.showToast({
@@ -677,7 +665,7 @@ Component({
             let query = new AV.Query(that.data.counterTabName);
             query.equalTo('url', that.data.articleID);
             query.find().then(ret => {
-                console.log(ret);
+                //console.log(ret);
                 if (ret.length > 0) {
                     let v = ret[0];
                     v.increment("time");
