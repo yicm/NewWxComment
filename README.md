@@ -4,6 +4,8 @@
 
 > ps: 打造这个插件的目的在于本人想要打造一个类似hexo通用博客框架，且是一个移动端的框架，首先采用微信小程序实现，现已完成博文编译器的开发，评论插件的开发(打通PC端Valine插件)，微信小程序的经典主题开发（未发布）,期待发布经典主题后，有更多开发者加入，开发更多的插件和主题，一起打通PC端和"现在移动端"，实现移动端的个人博客；
 
+> Hexo博客编译器已开源[https://github.com/yicm/HMP](https://github.com/yicm/HMP)，直接打通静态博客和微信小程序，Demo可微信搜索`小白AI博客`查看。
+
 > 先提前“剧透”下经典主题首页，倾心打造：
 
 ![image](https://raw.githubusercontent.com/yicm/NewWxComment/master/screenshots/Xiaobaiai.jpg)
@@ -116,9 +118,9 @@ theme: 主题设置，仅支持 light 或者 dark 两个属性值
 
 # Demo
 
-小程序`小白AI`博客引用NewWxComment组件示例：
+小程序`小白AI博客`引用NewWxComment组件示例：
 
-![](https://raw.githubusercontent.com/yicm/WxComment/master/screenshot/xiaobaiai.jpg)
+![](https://gitee.com/yicm/Images/raw/master/xiaobaiai/news/10004_2.jpg)
 
 # TODO
 
